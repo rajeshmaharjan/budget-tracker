@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
+  public menuItems = [
+    { name: 'Dashboard', route: '/dashboard', },
+    { name: 'Transactions', route: '/transactions', },
+  ];
 }
+

@@ -1,1 +1,109 @@
-<p>add-edit-transaction works!</p>
+<div class="offcanvas-header">
+    <h5>{{ mode }} Transaction</h5>
+
+    <button
+        type="button"
+        class="btn-close text-reset"
+        aria-label="Close"
+        (click)="activeOffcanvas.dismiss('Cross click')"
+    ></button>
+</div>
+
+<div class="offcanvas-body">
+    <form
+        (ngSubmit)="onSubmit()"
+        [formGroup]="formGroup"
+    >
+        <div class="form-group mb-3">
+            <label
+                for=""
+                class="form-label"
+            >Date</label>
+            <input
+                type="date"
+                class="form-control"
+                [class.is-invalid]="submitted && fc['date'].errors"
+                placeholder="Select date"
+                formControlName="date"
+            />
+            <div
+                *ngIf="submitted && fc['date'].errors?.['required']"
+                class="invalid-feedback"
+            >Please choose date.</div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label
+                for=""
+                class="form-label"
+            >Amount</label>
+            <input
+                type="text"
+                class="form-control"
+                [class.is-invalid]="submitted && fc['amount'].errors"
+                placeholder="Enter amount"
+                formControlName="amount"
+            />
+            <div
+                *ngIf="submitted && fc['amount'].errors?.['required']"
+                class="invalid-feedback"
+            >Please enter amount.</div>
+
+            <div
+                *ngIf="submitted && fc['amount'].errors?.['min']"
+                class="invalid-feedback"
+            >Amount must be greater than 0.</div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label
+                for=""
+                class="form-label"
+            >Type</label>
+            <select
+                class="form-select"
+                [class.is-invalid]="submitted && fc['type'].errors"
+                formControlName="type"
+            >
+                <option
+                    value=""
+                    disabled
+                >--SELECT--</option>
+                <option value="INCOME">Income</option>
+                <option value="EXPENSE">Expense</option>
+            </select>
+            <div
+                *ngIf="submitted && fc['type'].errors?.['required']"
+                class="invalid-feedback"
+            >Please select type.</div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label
+                for=""
+                class="form-label"
+            >Description</label>
+            <textarea
+                class="form-control"
+                rows="5"
+                placeholder="Enter description"
+                formControlName="description"
+            ></textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <div class="d-flex justify-content-end gap-2">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="activeOffcanvas.dismiss('Cancel click')"
+                >Cancel</button>
+
+                <button
+                    type="submit"
+                    class="btn btn-success"
+                >Save</button>
+            </div>
+        </div>
+    </form>
+</div>

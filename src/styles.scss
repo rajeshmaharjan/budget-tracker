@@ -129,5 +129,10 @@ table {
     border-spacing: 0;
 }
 
+.icon {
+    height: 1rem;
+    width: 1rem;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';

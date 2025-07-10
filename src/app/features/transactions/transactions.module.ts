@@ -1,9 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { TransactionsRoutingModule } from './transactions-routing.module';
-import { TransactionsComponent } from './pages/transactions/transactions.component';
+
 import { AddEditTransactionComponent } from './components/add-edit-transaction/add-edit-transaction.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +14,7 @@ import { AddEditTransactionComponent } from './components/add-edit-transaction/a
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     TransactionsRoutingModule
   ]
 })

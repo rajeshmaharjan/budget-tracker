@@ -1,1 +1,81 @@
-<p>transactions works!</p>
+<div class="filters d-flex justify-content-end">
+    <button
+        type="button"
+        class="btn btn-primary"
+        (click)="onAddTxnBtnClick()"
+    >+ Add Transaction</button>
+</div>
+
+<div class="table-contanier">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th
+                    scope="col"
+                    class="text-center"
+                >SN</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Date</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Amount</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Type</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Description</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngIf="transactions.length === 0">
+                <td colspan="6">Transactions not available...</td>
+            </tr>
+
+            <tr *ngFor="let item of transactions; let i = index; trackBy: trackByFn">
+                <td class="text-end">{{ i + 1 }}</td>
+                <td class="text-center">{{ item.date | date: 'yyyy-MM-dd' }}</td>
+                <td class="text-end">{{ item.amount | number: '1.2-2' }}</td>
+                <td class="text-center">{{ item.type }}</td>
+                <td
+                    class="text-truncate"
+                    [style.max-width.px]="250"
+                    [title]="item.description"
+                >{{ item.description }}</td>
+                <td>
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            (click)="onEditBtnClick(item)"
+                        >
+                            <svg class="icon">
+                                <use xlink:href="assets/icons/icons.svg#pencil-square"></use>
+                            </svg>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="onDeleteBtnClick(item)"
+                        >
+                            <svg class="icon">
+                                <use xlink:href="assets/icons/icons.svg#trash"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
