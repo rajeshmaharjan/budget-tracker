@@ -1,0 +1,88 @@
+.statistics-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color-light) 100%);
+    }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    &.income-card {
+        --accent-color: #10b981;
+        --accent-color-light: #34d399;
+    }
+
+    &.expense-card {
+        --accent-color: #ef4444;
+        --accent-color-light: #f87171;
+    }
+
+    &.balance-card {
+        --accent-color: #3b82f6;
+        --accent-color-light: #60a5fa;
+    }
+}
+
+.card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.card-amount {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+
+    &.income {
+        color: #10b981;
+    }
+
+    &.expense {
+        color: #ef4444;
+    }
+
+    &.positive {
+        color: #10b981;
+    }
+
+    &.negative {
+        color: #ef4444;
+    }
+}

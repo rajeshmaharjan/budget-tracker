@@ -1,0 +1,19 @@
+<li class="list-group-item d-flex justify-content-between align-items-center">
+    <div class="d-flex flex-column align-items-center badge bg-primary p-2">
+        <span class="date">{{ transaction.date | date:'MMM d' }}</span>
+        <span class="year">{{ transaction.date | date:'y' }}</span>
+    </div>
+
+    <div class="ms-2 me-auto">
+        <div class="fw-bold">{{ transaction.description.slice(0, 20) }}</div>
+        {{ transaction.type }}
+    </div>
+
+    <span
+        class="badge rounded-pill"
+        [ngClass]="{
+            'bg-success': transaction.type === TransactionType.Income,
+            'bg-danger': transaction.type === TransactionType.Expense
+        }"
+    >{{ transaction.amount | number:'1.2-2' }}</span>
+</li>

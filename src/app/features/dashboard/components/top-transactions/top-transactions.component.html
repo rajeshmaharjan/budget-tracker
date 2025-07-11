@@ -1,0 +1,6 @@
+<h5>Top Transactions</h5>
+<ul class="list-group">
+    <ng-container *ngFor="let transaction of topTransactions">
+        <app-transaction-list-item [transaction]="transaction"></app-transaction-list-item>
+    </ng-container>
+</ul>
