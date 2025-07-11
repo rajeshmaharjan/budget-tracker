@@ -1,4 +1,4 @@
-<div class="filters d-flex justify-content-end">
+<div class="filters d-flex justify-content-end mb-3">
     <button
         type="button"
         class="btn btn-primary"
@@ -7,7 +7,7 @@
 </div>
 
 <div class="table-contanier">
-    <table class="table table-responsive">
+    <table class="table table-responsive table-bordered table-striped table-hover">
         <thead>
             <tr>
                 <th
@@ -44,7 +44,7 @@
 
             <tr *ngFor="let item of transactions; let i = index; trackBy: trackByFn">
                 <td class="text-end">{{ i + 1 }}</td>
-                <td class="text-center">{{ item.date | date: 'yyyy-MM-dd' }}</td>
+                <td class="text-center">{{ item.date | date: 'mediumDate' }}</td>
                 <td class="text-end">{{ item.amount | number: '1.2-2' }}</td>
                 <td class="text-center">{{ item.type }}</td>
                 <td

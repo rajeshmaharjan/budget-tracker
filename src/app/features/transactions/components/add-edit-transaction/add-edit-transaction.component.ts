@@ -4,6 +4,8 @@ import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 import { Transaction } from '@models/transaction.model';
 
+import { TransactionType } from '@enums/transaction-type.enum';
+
 @Component({
   selector: 'app-add-edit-transaction',
   templateUrl: './add-edit-transaction.component.html',
@@ -17,6 +19,8 @@ export class AddEditTransactionComponent implements OnInit {
   public submitted!: boolean;
   public formGroup!: FormGroup;
 
+  public transactionTypes: any[] = [];
+
   constructor(
     private _fb: FormBuilder
     , public activeOffcanvas: NgbActiveOffcanvas
@@ -24,6 +28,14 @@ export class AddEditTransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this._buildForm();
+
+    this.transactionTypes = Object.entries(TransactionType)
+      .map(([key, value]) => {
+        return {
+          label: key,
+          value: value,
+        };
+      });
   }
 
   public get fc(): { [key: string]: AbstractControl<any, any>; } {

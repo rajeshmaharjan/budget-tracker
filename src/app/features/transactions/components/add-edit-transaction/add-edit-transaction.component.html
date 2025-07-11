@@ -69,8 +69,10 @@
                     value=""
                     disabled
                 >--SELECT--</option>
-                <option value="INCOME">Income</option>
-                <option value="EXPENSE">Expense</option>
+                <option
+                    *ngFor="let option of transactionTypes"
+                    [value]="option.value"
+                >{{ option.label }}</option>
             </select>
             <div
                 *ngIf="submitted && fc['type'].errors?.['required']"
