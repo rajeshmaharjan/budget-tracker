@@ -1,67 +1,78 @@
-<div class="row align-items-end mb-3">
-    <div class="col-10">
-        <div class="row align-items-end">
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="">Start Date:</label>
-                    <input
-                        type="date"
-                        class="form-control"
-                        [(ngModel)]="filters['start_date']"
-                    />
+<div class="filters mb-3">
+    <div class="row align-items-end">
+        <div class="col-md-10 col-sm-12">
+            <div class="row align-items-end">
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label
+                            for=""
+                            class="form-label"
+                        >Start Date:</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            [(ngModel)]="filters['start_date']"
+                        />
+                    </div>
                 </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="">End Date:</label>
-                    <input
-                        type="date"
-                        class="form-control"
-                        [(ngModel)]="filters['end_date']"
-                    />
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label
+                            for=""
+                            class="form-label"
+                        >End Date:</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            [(ngModel)]="filters['end_date']"
+                        />
+                    </div>
                 </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="">Transaction Type:</label>
-                    <select
-                        class="form-select"
-                        [(ngModel)]="filters['type']"
-                    >
-                        <option value="">All</option>
-                        <option
-                            *ngFor="let option of transactionTypes"
-                            [value]="option.value"
-                        >{{ option.label }}</option>
-                    </select>
+                <div class="col-md-3 col-sm-12">
+                    <div class="form-group">
+                        <label
+                            for=""
+                            class="form-label"
+                        >Transaction Type:</label>
+                        <select
+                            class="form-select"
+                            [(ngModel)]="filters['type']"
+                        >
+                            <option value="">All</option>
+                            <option
+                                *ngFor="let option of transactionTypes"
+                                [value]="option.value"
+                            >{{ option.label }}</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-3 d-flex justify-content-start gap-3">
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    (click)="onFilterBtnClick()"
-                >Apply</button>
+                <div class="filter-btn-group col-md-3 col-sm-12 d-flex justify-content-start gap-3">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="onFilterBtnClick()"
+                    >Apply</button>
 
-                <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="onResetBtnClick()"
-                >Reset</button>
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="onResetBtnClick()"
+                    >Reset</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-2">
-        <button
-            type="button"
-            class="btn btn-success"
-            (click)="onAddTxnBtnClick()"
-        >+ Add Transaction</button>
+        <div class="col-md-2 col-sm-12">
+            <button
+                type="button"
+                class="btn btn-success btn-add-txn"
+                (click)="onAddTxnBtnClick()"
+            >+ Add Transaction</button>
+        </div>
     </div>
 </div>
 
-<div class="table-container">
+<div class="table-container mb-3">
     <table class="table table-responsive table-bordered table-striped table-hover">
         <thead>
             <tr>
@@ -133,9 +144,9 @@
             </tr>
         </tbody>
     </table>
+</div>
 
-    <div class="d-flex justify-content-between">
-        <span class="fst-italic">Displaying {{ paginationConfig['itemsPerPage'] }} items per page</span>
-        <pagination-controls (pageChange)="paginationConfig['currentPage'] = $event"></pagination-controls>
-    </div>
+<div class="pagination-container d-flex justify-content-between">
+    <span class="fst-italic">Displaying {{ paginationConfig['itemsPerPage'] }} items per page</span>
+    <pagination-controls (pageChange)="paginationConfig['currentPage'] = $event"></pagination-controls>
 </div>

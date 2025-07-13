@@ -1,0 +1,40 @@
+.filters {
+    button {
+        width: 100%;
+    }
+}
+
+.table-container {
+    overflow-y: scroll;
+}
+
+@media screen and (max-width: 600px) {
+    .filters {
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .filter-btn-group {
+            justify-content: space-between !important;
+            margin-bottom: 1rem;
+        }
+
+        .btn-add-txn {
+            float: right;
+        }
+    }
+
+    .pagination-container {
+        flex-direction: column;
+
+        span {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        pagination-controls {
+            display: flex;
+            align-self: center;
+        }
+    }
+}
