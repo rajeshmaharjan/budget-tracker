@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
-import { RecentTransactionsComponent, StatisticsCardComponent, TopTransactionsComponent, TransactionListItemComponent } from './components';
+import { IncomeVsExpenseChartComponent, RecentTransactionsComponent, StatisticsCardComponent, TopTransactionsComponent, TransactionListItemComponent } from './components';
+
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @NgModule({
@@ -12,11 +14,13 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     StatisticsCardComponent,
     RecentTransactionsComponent,
     TopTransactionsComponent,
-    TransactionListItemComponent
+    TransactionListItemComponent,
+    IncomeVsExpenseChartComponent,
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    HighchartsChartModule,
   ]
 })
 export class DashboardModule { }

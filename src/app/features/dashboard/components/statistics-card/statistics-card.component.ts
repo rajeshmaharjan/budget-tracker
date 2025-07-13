@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Transaction } from '@models/transaction.model';
 
 import { StorageHelper } from '@helpers/storage.helper';
+import { getTotalExpense, getTotalIncome } from 'src/app/features/transactions/helpers/data.helper';
 
 import { StorageKey } from '@enums/storage-key.enum';
-import { TransactionType } from '@enums/transaction-type.enum';
 
 @Component({
   selector: 'app-statistics-card',
@@ -22,16 +22,11 @@ export class StatisticsCardComponent implements OnInit {
   }
 
   private _loadData(): void {
-    const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? []
-      , incomes = transactions.filter(x => x.type === TransactionType.Income)
-      , expenses = transactions.filter(x => x.type === TransactionType.Expense);
+    const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? [];
 
-    this.totalIncome = this._getTotalAmount(incomes);
-    this.totalExpense = this._getTotalAmount(expenses);
+    this.totalIncome = getTotalIncome(transactions);
+    this.totalExpense = getTotalExpense(transactions);
+
     this.balanceAmount = this.totalIncome - this.totalExpense;
-  }
-
-  private _getTotalAmount(transactions: Transaction[]): number {
-    return transactions.reduce((a, c) => (a + +c.amount), 0);
   }
 }
