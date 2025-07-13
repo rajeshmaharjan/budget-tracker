@@ -128,6 +128,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       filteredTransactions = filteredTransactions.filter(x => x.type === this.filters['type']);
     }
 
+    this.paginationConfig['currentPage'] = 1; // reset current page to avoid pagination issue
     this.filteredTransactions = filteredTransactions;
   }
 }
