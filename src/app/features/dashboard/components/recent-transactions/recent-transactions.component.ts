@@ -20,6 +20,8 @@ export class RecentTransactionsComponent implements OnInit {
 
   private _loadData(): void {
     const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? [];
-    this.recentTransactions = transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.recentTransactions = transactions
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5);
   }
 }

@@ -20,6 +20,8 @@ export class TopTransactionsComponent implements OnInit {
 
   private _loadData(): void {
     const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? [];
-    this.topTransactions = transactions.sort((a, b) => +b - +a);
+    this.topTransactions = transactions
+      .sort((a, b) => +b - +a)
+      .slice(0, 5);
   }
 }
