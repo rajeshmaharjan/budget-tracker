@@ -67,7 +67,16 @@
                 type="button"
                 class="btn btn-success btn-add-txn"
                 (click)="onAddTxnBtnClick()"
-            >+ Add Transaction</button>
+            >
+                <svg
+                    class="bi"
+                    width="16"
+                    height="16"
+                >
+                    <use xlink:href="assets/icons/icons.svg#plus-lg"></use>
+                </svg>
+                Add Transaction
+            </button>
         </div>
     </div>
 </div>
@@ -119,26 +128,24 @@
                 <td class="text-center">{{ item.date | date: 'mediumDate' }}</td>
                 <td class="text-center">{{ item.type }}</td>
                 <td>
-                    <div class="d-flex align-items-center justify-content-center gap-2">
-                        <button
-                            type="button"
-                            class="btn btn-primary"
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <svg
+                            class="bi cursor-pointer"
+                            width="24"
+                            height="24"
                             (click)="onEditBtnClick(item)"
                         >
-                            <svg class="icon">
-                                <use xlink:href="assets/icons/icons.svg#pencil-square"></use>
-                            </svg>
-                        </button>
+                            <use xlink:href="assets/icons/icons.svg#pencil-square"></use>
+                        </svg>
 
-                        <button
-                            type="button"
-                            class="btn btn-danger"
+                        <svg
+                            class="bi cursor-pointer"
+                            width="24"
+                            height="24"
                             (click)="onDeleteBtnClick(item)"
                         >
-                            <svg class="icon">
-                                <use xlink:href="assets/icons/icons.svg#trash"></use>
-                            </svg>
-                        </button>
+                            <use xlink:href="assets/icons/icons.svg#trash"></use>
+                        </svg>
                     </div>
                 </td>
             </tr>
