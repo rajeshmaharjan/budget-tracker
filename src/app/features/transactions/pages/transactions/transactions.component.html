@@ -1,9 +1,64 @@
-<div class="filters d-flex justify-content-end mb-3">
-    <button
-        type="button"
-        class="btn btn-primary"
-        (click)="onAddTxnBtnClick()"
-    >+ Add Transaction</button>
+<div class="row align-items-end mb-3">
+    <div class="col-10">
+        <div class="row align-items-end">
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="">Start Date:</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        [(ngModel)]="filters['start_date']"
+                    />
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="">End Date:</label>
+                    <input
+                        type="date"
+                        class="form-control"
+                        [(ngModel)]="filters['end_date']"
+                    />
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="">Transaction Type:</label>
+                    <select
+                        class="form-select"
+                        [(ngModel)]="filters['type']"
+                    >
+                        <option value="">All</option>
+                        <option
+                            *ngFor="let option of transactionTypes"
+                            [value]="option.value"
+                        >{{ option.label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-start gap-3">
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="onFilterBtnClick()"
+                >Apply</button>
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="onResetBtnClick()"
+                >Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <button
+            type="button"
+            class="btn btn-success"
+            (click)="onAddTxnBtnClick()"
+        >+ Add Transaction</button>
+    </div>
 </div>
 
 <div class="table-container">
@@ -17,7 +72,7 @@
                 <th
                     scope="col"
                     class="text-center"
-                >Date</th>
+                >Description</th>
                 <th
                     scope="col"
                     class="text-center"
@@ -25,11 +80,11 @@
                 <th
                     scope="col"
                     class="text-center"
-                >Type</th>
+                >Date</th>
                 <th
                     scope="col"
                     class="text-center"
-                >Description</th>
+                >Type</th>
                 <th
                     scope="col"
                     class="text-center"
@@ -38,25 +93,25 @@
         </thead>
 
         <tbody>
-            <tr *ngIf="transactions.length === 0">
+            <tr *ngIf="filteredTransactions.length === 0">
                 <td colspan="6">Transactions not available...</td>
             </tr>
 
-            <tr *ngFor="let item of transactions; let i = index; trackBy: trackByFn">
-                <td class="text-end">{{ i + 1 }}</td>
-                <td class="text-center">{{ item.date | date: 'mediumDate' }}</td>
-                <td class="text-end">{{ item.amount | number: '1.2-2' }}</td>
-                <td class="text-center">{{ item.type }}</td>
+            <tr *ngFor="let item of filteredTransactions | paginate:paginationConfig; let i = index; trackBy: trackByFn">
+                <td class="text-end">{{ (paginationConfig['currentPage'] - 1) * paginationConfig['itemsPerPage'] + i + 1 }}</td>
                 <td
                     class="text-truncate"
                     [style.max-width.px]="250"
                     [title]="item.description"
                 >{{ item.description }}</td>
+                <td class="text-end">{{ item.amount | number: '1.2-2' }}</td>
+                <td class="text-center">{{ item.date | date: 'mediumDate' }}</td>
+                <td class="text-center">{{ item.type }}</td>
                 <td>
                     <div class="d-flex align-items-center justify-content-center gap-2">
                         <button
                             type="button"
-                            class="btn btn-secondary"
+                            class="btn btn-primary"
                             (click)="onEditBtnClick(item)"
                         >
                             <svg class="icon">
@@ -78,4 +133,9 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-between">
+        <span class="fst-italic">Displaying {{ paginationConfig['itemsPerPage'] }} items per page</span>
+        <pagination-controls (pageChange)="paginationConfig['currentPage'] = $event"></pagination-controls>
+    </div>
 </div>

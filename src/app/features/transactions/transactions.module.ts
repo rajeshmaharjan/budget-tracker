@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { TransactionsRoutingModule } from './transactions-routing.module';
 
@@ -14,8 +16,12 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
-    TransactionsRoutingModule
+    TransactionsRoutingModule,
+    NgxPaginationModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ]
 })
 export class TransactionsModule { }
