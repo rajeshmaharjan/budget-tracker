@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-between align-items-center">
+    <h5>Top Transactions</h5>
+    <a
+        routerLink="/transactions"
+        class="link"
+    >View All</a>
+</div>
+
+<ul class="list-group">
+    <li
+        *ngIf="topTransactions.length === 0"
+        class="list-group-item"
+    >Nothing to show here yet.</li>
+
+    <ng-container *ngFor="let transaction of topTransactions">
+        <app-transaction-list-item [transaction]="transaction"></app-transaction-list-item>
+    </ng-container>
+</ul>

@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideNgxMask } from 'ngx-mask';
 
 import { AppRoutingModule } from './app-routing.module';
+import { LayoutModule } from './layout/layout.module';
+import { SharedModule } from './shared/shared.module';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -10,9 +15,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    NgbModule,
+    AppRoutingModule,
+    SharedModule,
+    LayoutModule,
   ],
-  providers: [],
+  providers: [
+    provideNgxMask(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

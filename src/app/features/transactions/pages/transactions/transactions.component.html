@@ -1,0 +1,159 @@
+<div class="filters mb-3">
+    <div class="row align-items-end">
+        <div class="col-md-10 col-sm-12">
+            <div class="row align-items-end">
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label
+                            for=""
+                            class="form-label"
+                        >Start Date:</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            [(ngModel)]="filters['start_date']"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <label
+                            for=""
+                            class="form-label"
+                        >End Date:</label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            [(ngModel)]="filters['end_date']"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <div class="form-group">
+                        <label
+                            for=""
+                            class="form-label"
+                        >Transaction Type:</label>
+                        <select
+                            class="form-select"
+                            [(ngModel)]="filters['type']"
+                        >
+                            <option value="">All</option>
+                            <option
+                                *ngFor="let option of transactionTypes"
+                                [value]="option.value"
+                            >{{ option.label }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-btn-group col-md-3 col-sm-12 d-flex justify-content-start gap-3">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="onFilterBtnClick()"
+                    >Apply</button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="onResetBtnClick()"
+                    >Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-12">
+            <button
+                type="button"
+                class="btn btn-success btn-add-txn"
+                (click)="onAddTxnBtnClick()"
+            >
+                <svg
+                    class="bi"
+                    width="16"
+                    height="16"
+                >
+                    <use xlink:href="assets/icons/icons.svg#plus-lg"></use>
+                </svg>
+                Add Transaction
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="table-container mb-3">
+    <table class="table table-responsive table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th
+                    scope="col"
+                    class="text-center"
+                >SN</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Description</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Amount</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Date</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Type</th>
+                <th
+                    scope="col"
+                    class="text-center"
+                >Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngIf="filteredTransactions.length === 0">
+                <td colspan="6">Transactions not available...</td>
+            </tr>
+
+            <tr *ngFor="let item of filteredTransactions | paginate:paginationConfig; let i = index; trackBy: trackByFn">
+                <td class="text-end">{{ (paginationConfig['currentPage'] - 1) * paginationConfig['itemsPerPage'] + i + 1 }}</td>
+                <td
+                    class="text-truncate"
+                    [style.max-width.px]="250"
+                    [title]="item.description"
+                >{{ item.description }}</td>
+                <td class="text-end">{{ item.amount | number: '1.2-2' }}</td>
+                <td class="text-center">{{ item.date | date: 'mediumDate' }}</td>
+                <td class="text-center">{{ item.type }}</td>
+                <td>
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <svg
+                            class="bi cursor-pointer"
+                            width="24"
+                            height="24"
+                            (click)="onEditBtnClick(item)"
+                        >
+                            <use xlink:href="assets/icons/icons.svg#pencil-square"></use>
+                        </svg>
+
+                        <svg
+                            class="bi cursor-pointer"
+                            width="24"
+                            height="24"
+                            (click)="onDeleteBtnClick(item)"
+                        >
+                            <use xlink:href="assets/icons/icons.svg#trash"></use>
+                        </svg>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-container d-flex justify-content-between">
+    <span class="fst-italic">Displaying {{ paginationConfig['itemsPerPage'] }} items per page</span>
+    <pagination-controls (pageChange)="paginationConfig['currentPage'] = $event"></pagination-controls>
+</div>
