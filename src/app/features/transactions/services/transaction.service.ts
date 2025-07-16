@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { TransactionFilters } from '@models/transaction-filters.model';
+import { TransactionSummary } from '@models/transaction-summary.model';
 import { Transaction } from '@models/transaction.model';
 
 import { StorageHelper } from '@helpers/storage.helper';
@@ -42,6 +43,18 @@ export class TransactionService {
     return transactions;
   }
 
+  public getRecentTransactions(): Transaction[] {
+    return this.transactions
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5);
+  }
+
+  public getTopTransactions(): Transaction[] {
+    return this.transactions
+      .sort((a, b) => +b.amount - +a.amount)
+      .slice(0, 5);
+  }
+
   public addTransaction(txn: Omit<Transaction, 'id'>) {
     this.transactions = [...this.transactions, { id: new Date().getTime(), ...txn }];
   }
@@ -67,5 +80,14 @@ export class TransactionService {
         value: value,
       };
     });
+  }
+
+  public getTransactionSummary(): TransactionSummary {
+    const transactions: Transaction[] = this.transactions
+      , totalIncome = transactions.filter(x => x.type === TransactionType.Income).reduce((a, c) => (a + +c.amount), 0)
+      , totalExpense = transactions.filter(x => x.type === TransactionType.Expense).reduce((a, c) => (a + +c.amount), 0)
+      , totalBalance = totalIncome - totalExpense;
+
+    return { totalIncome, totalExpense, totalBalance, };
   }
 }

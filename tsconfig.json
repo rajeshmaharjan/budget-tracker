@@ -36,6 +36,9 @@
       "@models/*": [
         "src/app/core/models/*"
       ],
+      "@transactionServices/*": [
+        "src/app/features/transactions/services/*"
+      ],
     }
   },
   "angularCompilerOptions": {

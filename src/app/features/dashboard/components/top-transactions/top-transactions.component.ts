@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Transaction } from '@models/transaction.model';
 
-import { StorageHelper } from '@helpers/storage.helper';
-
-import { StorageKey } from '@enums/storage-key.enum';
+import { TransactionService } from '@transactionServices/transaction.service';
 
 @Component({
   selector: 'app-top-transactions',
@@ -14,14 +12,13 @@ import { StorageKey } from '@enums/storage-key.enum';
 export class TopTransactionsComponent implements OnInit {
   public topTransactions: Transaction[] = [];
 
+  constructor(private _transactionService: TransactionService) { }
+
   ngOnInit(): void {
     this._loadData();
   }
 
   private _loadData(): void {
-    const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? [];
-    this.topTransactions = transactions
-      .sort((a, b) => +b.amount - +a.amount)
-      .slice(0, 5);
+    this.topTransactions = this._transactionService.getTopTransactions();
   }
 }
