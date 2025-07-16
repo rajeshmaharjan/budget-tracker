@@ -65,13 +65,15 @@
         <div class="col-md-2 col-sm-12">
             <button
                 type="button"
-                class="btn btn-success btn-add-txn"
+                class="btn btn-success btn-add-txn d-flex justify-content-center align-items-center gap-1"
                 (click)="onAddTxnBtnClick()"
             >
                 <svg
                     class="bi"
                     width="16"
                     height="16"
+                    fill="var(--bs-btn-color)"
+                    stroke="var(--bs-btn-color)"
                 >
                     <use xlink:href="assets/icons/icons.svg#plus-lg"></use>
                 </svg>
@@ -113,11 +115,11 @@
         </thead>
 
         <tbody>
-            <tr *ngIf="filteredTransactions.length === 0">
+            <tr *ngIf="transactions.length === 0">
                 <td colspan="6">Transactions not available...</td>
             </tr>
 
-            <tr *ngFor="let item of filteredTransactions | paginate:paginationConfig; let i = index; trackBy: trackByFn">
+            <tr *ngFor="let item of transactions | paginate:paginationConfig; let i = index; trackBy: trackByFn">
                 <td class="text-end">{{ (paginationConfig['currentPage'] - 1) * paginationConfig['itemsPerPage'] + i + 1 }}</td>
                 <td
                     class="text-truncate"
@@ -155,5 +157,8 @@
 
 <div class="pagination-container d-flex justify-content-between">
     <span class="fst-italic">Displaying {{ paginationConfig['itemsPerPage'] }} items per page</span>
-    <pagination-controls (pageChange)="paginationConfig['currentPage'] = $event"></pagination-controls>
+    <pagination-controls
+        (pageChange)="paginationConfig['currentPage'] = $event"
+        [autoHide]="true"
+    ></pagination-controls>
 </div>

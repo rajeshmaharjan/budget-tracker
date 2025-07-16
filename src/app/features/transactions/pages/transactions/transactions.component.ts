@@ -4,13 +4,12 @@ import { Subject } from 'rxjs';
 
 import { AddEditTransactionComponent } from '../../components/add-edit-transaction/add-edit-transaction.component';
 
+import { TransactionService } from '../../services/transaction.service';
+
+import { TransactionFilters } from '@models/transaction-filters.model';
 import { Transaction } from '@models/transaction.model';
 
-import { StorageHelper } from '@helpers/storage.helper';
-import { getEnumAsOptions } from '../../helpers/data.helper';
-
-import { StorageKey } from '@enums/storage-key.enum';
-import { TransactionType } from '@enums/transaction-type.enum';
+import { defaultPaginationConfig } from '@config/default-pagination.config';
 
 @Component({
   selector: 'app-transactions',
@@ -21,23 +20,23 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   private _destroyed$ = new Subject<void>();
 
   public transactions!: Transaction[];
-  public filteredTransactions!: Transaction[];
 
-  public transactionTypes: any[] = getEnumAsOptions(TransactionType);
+  public transactionTypes: any[] = [];
 
-  public filters: { [key: string]: any } = {
+  public filters: TransactionFilters = {
     start_date: '',
     end_date: '',
     type: '',
   };
-  public paginationConfig: { [key: string]: number } = {
-    itemsPerPage: 5,
-    currentPage: 1,
-  };
+  public paginationConfig = Object.assign({}, defaultPaginationConfig);
 
-  constructor(private _offcanvas: NgbOffcanvas) { }
+  constructor(
+    private _offcanvas: NgbOffcanvas
+    , private _transactionService: TransactionService
+  ) { }
 
   ngOnInit(): void {
+    this.transactionTypes = this._transactionService.getTransactionTypes();
     this._loadData();
   }
 
@@ -51,84 +50,43 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   }
 
   public onResetBtnClick(): void {
-    this.filters['start_date'] = '';
-    this.filters['end_date'] = '';
-    this.filters['type'] = '';
-    this._applyFilters();
+    for (const key in this.filters) {
+      this.filters[key as keyof TransactionFilters] = '';
+    }
+    this._loadData();
   }
 
   public onFilterBtnClick(): void {
-    this._applyFilters();
+    this._loadData();
   }
 
   public onAddTxnBtnClick(): void {
     const offcanvasRef = this._offcanvas.open(AddEditTransactionComponent, { position: 'end' });
     offcanvasRef.componentInstance.mode = 'Add';
     offcanvasRef.closed.subscribe(data => {
-      if (data) {
-        const currentItems = StorageHelper.getItem(StorageKey.Transaction) ?? [];
-        currentItems.push(data);
-        StorageHelper.setItem(StorageKey.Transaction, currentItems);
-        this._loadData();
-      }
+
+      this._loadData();
     });
   }
 
-  public onEditBtnClick(item: Transaction): void {
+  public onEditBtnClick(txn: Transaction): void {
     const offcanvas = this._offcanvas.open(AddEditTransactionComponent, { position: 'end' });
     offcanvas.componentInstance.mode = 'Edit';
-    offcanvas.componentInstance.data = item;
+    offcanvas.componentInstance.data = txn;
     offcanvas.closed.subscribe((data: Transaction) => {
-      if (data) {
-        const currentItems: Transaction[] = StorageHelper.getItem(StorageKey.Transaction)
-          , idx = currentItems.findIndex((x: Transaction) => x.id === data.id);
 
-        if (idx !== -1) {
-          currentItems[idx] = data;
-          StorageHelper.setItem(StorageKey.Transaction, currentItems);
-        }
-
-        this._loadData();
-      }
+      this._loadData();
     });
   }
 
-  public onDeleteBtnClick(item: Transaction): void {
+  public onDeleteBtnClick(txn: Transaction): void {
     if (confirm('Are you sure?')) {
-      const currentItems = StorageHelper.getItem(StorageKey.Transaction) ?? []
-        , filteredItems = currentItems.filter((x: Transaction) => x.id !== item.id);
-
-      StorageHelper.setItem(StorageKey.Transaction, filteredItems);
-
+      this._transactionService.deleteTransaction(txn.id);
       this._loadData();
     }
   }
 
   private _loadData(): void {
-    const transactions = StorageHelper.getItem(StorageKey.Transaction) ?? [];
-
-    this.transactions = [...transactions];
-    this.filteredTransactions = [...transactions];
-  }
-
-  private _applyFilters(): void {
-    let filteredTransactions: Transaction[] = [...this.transactions];
-
-    if (this.filters['start_date'] && this.filters['end_date']) {
-      const startDate = new Date(this.filters['start_date']).getTime()
-        , endDate = new Date(this.filters['end_date']).getTime();
-
-      filteredTransactions = filteredTransactions.filter(x => {
-        const txnDate = new Date(x.date).getTime()
-        return (txnDate >= startDate && txnDate <= endDate);
-      });
-    }
-
-    if (this.filters['type']) {
-      filteredTransactions = filteredTransactions.filter(x => x.type === this.filters['type']);
-    }
-
-    this.paginationConfig['currentPage'] = 1; // reset current page to avoid pagination issue
-    this.filteredTransactions = filteredTransactions;
+    this.transactions = this._transactionService.getTransactions(this.filters);
   }
 }

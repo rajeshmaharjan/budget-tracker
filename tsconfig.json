@@ -24,6 +24,9 @@
       "dom"
     ],
     "paths": {
+      "@config/*": [
+        "src/app/core/config/*"
+      ],
       "@enums/*": [
         "src/app/core/enums/*"
       ],
