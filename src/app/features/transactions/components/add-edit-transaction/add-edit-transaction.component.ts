@@ -42,14 +42,17 @@ export class AddEditTransactionComponent implements OnInit {
 
     if (this.formGroup.valid) {
       const data = this.formGroup.value;
+
       if (this.formGroup.get('id')?.value) {
-        this._transactionService.editTransaction(data);
+        this.activeOffcanvas.close(
+          this._transactionService.editTransaction(data)
+        );
       } else {
         delete data.id;
-        this._transactionService.addTransaction(data);
+        this.activeOffcanvas.close(
+          this._transactionService.addTransaction(data)
+        );
       }
-
-      this.activeOffcanvas.close({ ...this.formGroup.value });
     }
   }
 

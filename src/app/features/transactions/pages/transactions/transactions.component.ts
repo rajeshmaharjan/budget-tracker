@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 
+import { ConfirmationModalComponent } from 'src/app/shared/components';
 import { AddEditTransactionComponent } from '../../components/add-edit-transaction/add-edit-transaction.component';
 
 import { TransactionService } from '../../services/transaction.service';
@@ -9,7 +10,9 @@ import { TransactionService } from '../../services/transaction.service';
 import { TransactionFilters } from '@models/transaction-filters.model';
 import { Transaction } from '@models/transaction.model';
 
-import { defaultPaginationConfig } from '@config/default-pagination.config';
+import { DEF_MODAL_OPTS } from '@config/modal.options';
+import { DEF_OFFCANVAS_OPTS } from '@config/offcanvas.options';
+import { DEF_PAGINATION_CONFIG } from '@config/pagination.config';
 
 @Component({
   selector: 'app-transactions',
@@ -28,10 +31,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     end_date: '',
     type: '',
   };
-  public paginationConfig = Object.assign({}, defaultPaginationConfig);
+  public paginationConfig = Object.assign({}, DEF_PAGINATION_CONFIG);
 
   constructor(
     private _offcanvas: NgbOffcanvas
+    , private _modal: NgbModal
     , private _transactionService: TransactionService
   ) { }
 
@@ -45,8 +49,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this._destroyed$.complete();
   }
 
-  public trackByFn(idx: number, item: Transaction): number {
-    return item.id;
+  public trackByFn(idx: number, txn: Transaction): number {
+    return txn.id;
   }
 
   public onResetBtnClick(): void {
@@ -61,29 +65,30 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   }
 
   public onAddTxnBtnClick(): void {
-    const offcanvasRef = this._offcanvas.open(AddEditTransactionComponent, { position: 'end' });
+    const offcanvasRef = this._offcanvas.open(AddEditTransactionComponent, DEF_OFFCANVAS_OPTS);
     offcanvasRef.componentInstance.mode = 'Add';
     offcanvasRef.closed.subscribe(data => {
-
       this._loadData();
     });
   }
 
   public onEditBtnClick(txn: Transaction): void {
-    const offcanvas = this._offcanvas.open(AddEditTransactionComponent, { position: 'end' });
-    offcanvas.componentInstance.mode = 'Edit';
-    offcanvas.componentInstance.data = txn;
-    offcanvas.closed.subscribe((data: Transaction) => {
-
+    const offcanvasRef = this._offcanvas.open(AddEditTransactionComponent, DEF_OFFCANVAS_OPTS);
+    offcanvasRef.componentInstance.mode = 'Edit';
+    offcanvasRef.componentInstance.data = txn;
+    offcanvasRef.closed.subscribe((data: Transaction) => {
       this._loadData();
     });
   }
 
   public onDeleteBtnClick(txn: Transaction): void {
-    if (confirm('Are you sure?')) {
-      this._transactionService.deleteTransaction(txn.id);
-      this._loadData();
-    }
+    const modalRef = this._modal.open(ConfirmationModalComponent, DEF_MODAL_OPTS);
+    modalRef.closed.subscribe(confirmation => {
+      if (confirmation) {
+        this._transactionService.deleteTransaction(txn.id);
+        this._loadData();
+      }
+    });
   }
 
   private _loadData(): void {

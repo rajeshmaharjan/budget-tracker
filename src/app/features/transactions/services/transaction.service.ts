@@ -56,10 +56,12 @@ export class TransactionService {
   }
 
   public addTransaction(txn: Omit<Transaction, 'id'>) {
-    this.transactions = [...this.transactions, { id: new Date().getTime(), ...txn }];
+    const data = { id: new Date().getTime(), ...txn };
+    this.transactions = [...this.transactions, data];
+    return data;
   }
 
-  public editTransaction(txn: Transaction): void {
+  public editTransaction(txn: Transaction): Transaction {
     const transactions: Transaction[] = this.transactions
       , idx = this.transactions.findIndex((x: Transaction) => x.id === txn.id);
 
@@ -67,6 +69,8 @@ export class TransactionService {
       transactions[idx] = txn;
       this.transactions = transactions;
     }
+
+    return txn;
   }
 
   public deleteTransaction(id: number): void {
