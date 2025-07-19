@@ -15,13 +15,19 @@
 <div class="modal-footer">
     <button
         type="button"
-        class="btn btn-success"
+        class="btn btn-success d-flex justify-content-center align-items-center g-1"
         (click)="activeModal.close(true)"
-    >OK</button>
+    >
+        <app-svg-icon name="check"></app-svg-icon>
+        OK
+    </button>
 
     <button
         type="button"
-        class="btn btn-danger"
+        class="btn btn-danger d-flex justify-content-center align-items-center g-1"
         (click)="activeModal.close(false)"
-    >Cancel</button>
+    >
+        <app-svg-icon name="x"></app-svg-icon>
+        Cancel
+    </button>
 </div>

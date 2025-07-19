@@ -49,15 +49,21 @@
                 <div class="filter-btn-group col-md-3 col-sm-12 d-flex justify-content-start gap-3">
                     <button
                         type="button"
-                        class="btn btn-primary"
+                        class="btn btn-primary d-flex justify-content-center align-items-center gap-1"
                         (click)="onFilterBtnClick()"
-                    >Apply</button>
+                    >
+                        <app-svg-icon name="check"></app-svg-icon>
+                        Apply
+                    </button>
 
                     <button
                         type="button"
-                        class="btn btn-danger"
+                        class="btn btn-danger d-flex justify-content-center align-items-center gap-1"
                         (click)="onResetBtnClick()"
-                    >Reset</button>
+                    >
+                        <app-svg-icon name="rotate-ccw"></app-svg-icon>
+                        Reset
+                    </button>
                 </div>
             </div>
         </div>
@@ -68,7 +74,7 @@
                 class="btn btn-success btn-add-txn d-flex justify-content-center align-items-center gap-1"
                 (click)="onAddTxnBtnClick()"
             >
-                <app-svg-icon name="plus-lg"></app-svg-icon>
+                <app-svg-icon name="plus"></app-svg-icon>
                 Add Transaction
             </button>
         </div>
@@ -124,7 +130,7 @@
                 <td>
                     <div class="d-flex justify-content-center align-items-center gap-3">
                         <app-svg-icon
-                            name="pencil-square"
+                            name="edit"
                             class="cursor-pointer"
                             (click)="onEditBtnClick(item)"
                         ></app-svg-icon>
