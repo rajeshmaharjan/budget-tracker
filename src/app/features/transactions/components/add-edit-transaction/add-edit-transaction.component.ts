@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
-import { TransactionService } from '../../services/transaction.service';
+import { TransactionService } from '@transactionServices/transaction.service';
 
 import { Transaction } from '@models/transaction.model';
 

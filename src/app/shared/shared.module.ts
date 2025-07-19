@@ -1,14 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent, SvgIconComponent } from './components';
 
 @NgModule({
   declarations: [
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    SvgIconComponent,
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+  ],
+  exports: [
+    SvgIconComponent,
+  ],
 })
 export class SharedModule { }

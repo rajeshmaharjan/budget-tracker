@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { ConfirmationModalComponent } from 'src/app/shared/components';
 import { AddEditTransactionComponent } from '../../components/add-edit-transaction/add-edit-transaction.component';
 
-import { TransactionService } from '../../services/transaction.service';
+import { TransactionService } from '@transactionServices/transaction.service';
 
 import { TransactionFilters } from '@models/transaction-filters.model';
 import { Transaction } from '@models/transaction.model';

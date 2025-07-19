@@ -68,15 +68,7 @@
                 class="btn btn-success btn-add-txn d-flex justify-content-center align-items-center gap-1"
                 (click)="onAddTxnBtnClick()"
             >
-                <svg
-                    class="bi"
-                    width="16"
-                    height="16"
-                    fill="var(--bs-btn-color)"
-                    stroke="var(--bs-btn-color)"
-                >
-                    <use xlink:href="assets/icons/icons.svg#plus-lg"></use>
-                </svg>
+                <app-svg-icon name="plus-lg"></app-svg-icon>
                 Add Transaction
             </button>
         </div>
@@ -131,23 +123,17 @@
                 <td class="text-center">{{ item.type }}</td>
                 <td>
                     <div class="d-flex justify-content-center align-items-center gap-3">
-                        <svg
+                        <app-svg-icon
+                            name="pencil-square"
                             class="cursor-pointer"
-                            width="24"
-                            height="24"
                             (click)="onEditBtnClick(item)"
-                        >
-                            <use xlink:href="assets/icons/icons.svg#pencil-square"></use>
-                        </svg>
+                        ></app-svg-icon>
 
-                        <svg
+                        <app-svg-icon
+                            name="trash"
                             class="cursor-pointer"
-                            width="24"
-                            height="24"
                             (click)="onDeleteBtnClick(item)"
-                        >
-                            <use xlink:href="assets/icons/icons.svg#trash"></use>
-                        </svg>
+                        ></app-svg-icon>
                     </div>
                 </td>
             </tr>
