@@ -1,0 +1,11 @@
+:host {
+    display: inline-flex;
+    /* Ensures proper alignment with text */
+    align-items: center;
+    justify-content: center;
+}
+
+svg {
+    display: block;
+    /* Removes extra space below SVG */
+}

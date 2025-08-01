@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Transaction } from '@models/transaction.model';
+import { TransactionService } from '@transactionServices/transaction.service';
 
-import { StorageHelper } from '@helpers/storage.helper';
-import { getTotalExpense, getTotalIncome } from 'src/app/features/transactions/helpers/data.helper';
-
-import { StorageKey } from '@enums/storage-key.enum';
+import { TransactionSummary } from '@models/transaction-summary.model';
 
 @Component({
   selector: 'app-statistics-card',
@@ -17,16 +14,16 @@ export class StatisticsCardComponent implements OnInit {
   public totalExpense!: number;
   public balanceAmount!: number;
 
+  constructor(private _transactionService: TransactionService) { }
+
   ngOnInit(): void {
     this._loadData();
   }
 
   private _loadData(): void {
-    const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? [];
-
-    this.totalIncome = getTotalIncome(transactions);
-    this.totalExpense = getTotalExpense(transactions);
-
-    this.balanceAmount = this.totalIncome - this.totalExpense;
+    const summary: TransactionSummary = this._transactionService.getTransactionSummary();
+    this.totalIncome = summary.totalIncome;
+    this.totalExpense = summary.totalExpense;
+    this.balanceAmount = summary.totalBalance;
   }
 }

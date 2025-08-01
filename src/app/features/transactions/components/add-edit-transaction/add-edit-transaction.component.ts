@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
+import { TransactionService } from '@transactionServices/transaction.service';
+
 import { Transaction } from '@models/transaction.model';
-
-import { getEnumAsOptions } from '../../helpers/data.helper';
-
-import { TransactionType } from '@enums/transaction-type.enum';
 
 @Component({
   selector: 'app-add-edit-transaction',
@@ -21,14 +19,17 @@ export class AddEditTransactionComponent implements OnInit {
   public submitted!: boolean;
   public formGroup!: FormGroup;
 
-  public transactionTypes: any[] = getEnumAsOptions(TransactionType);
+  public transactionTypes: any[] = [];
 
   constructor(
     private _fb: FormBuilder
     , public activeOffcanvas: NgbActiveOffcanvas
+    , private _transactionService: TransactionService
   ) { }
 
   ngOnInit(): void {
+    this.transactionTypes = this._transactionService.getTransactionTypes();
+
     this._buildForm();
   }
 
@@ -40,13 +41,24 @@ export class AddEditTransactionComponent implements OnInit {
     this.submitted = true;
 
     if (this.formGroup.valid) {
-      this.activeOffcanvas.close({ ...this.formGroup.value });
+      const data = this.formGroup.value;
+
+      if (this.formGroup.get('id')?.value) {
+        this.activeOffcanvas.close(
+          this._transactionService.editTransaction(data)
+        );
+      } else {
+        delete data.id;
+        this.activeOffcanvas.close(
+          this._transactionService.addTransaction(data)
+        );
+      }
     }
   }
 
   private _buildForm(): void {
     this.formGroup = this._fb.group({
-      id: [this.data?.id ?? new Date().getTime()],
+      id: [this.data?.id],
       description: [this.data?.description, Validators.required],
       amount: [this.data?.amount, [Validators.required, Validators.min(1)]],
       date: [this.data?.date ?? new Date().toISOString().slice(0, 10), Validators.required],

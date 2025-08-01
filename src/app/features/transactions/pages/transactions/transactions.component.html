@@ -49,15 +49,21 @@
                 <div class="filter-btn-group col-md-3 col-sm-12 d-flex justify-content-start gap-3">
                     <button
                         type="button"
-                        class="btn btn-primary"
+                        class="btn btn-primary d-flex justify-content-center align-items-center gap-1"
                         (click)="onFilterBtnClick()"
-                    >Apply</button>
+                    >
+                        <app-svg-icon name="check"></app-svg-icon>
+                        Apply
+                    </button>
 
                     <button
                         type="button"
-                        class="btn btn-danger"
+                        class="btn btn-danger d-flex justify-content-center align-items-center gap-1"
                         (click)="onResetBtnClick()"
-                    >Reset</button>
+                    >
+                        <app-svg-icon name="rotate-ccw"></app-svg-icon>
+                        Reset
+                    </button>
                 </div>
             </div>
         </div>
@@ -65,16 +71,10 @@
         <div class="col-md-2 col-sm-12">
             <button
                 type="button"
-                class="btn btn-success btn-add-txn"
+                class="btn btn-success btn-add-txn d-flex justify-content-center align-items-center gap-1"
                 (click)="onAddTxnBtnClick()"
             >
-                <svg
-                    class="bi"
-                    width="16"
-                    height="16"
-                >
-                    <use xlink:href="assets/icons/icons.svg#plus-lg"></use>
-                </svg>
+                <app-svg-icon name="plus"></app-svg-icon>
                 Add Transaction
             </button>
         </div>
@@ -113,11 +113,11 @@
         </thead>
 
         <tbody>
-            <tr *ngIf="filteredTransactions.length === 0">
+            <tr *ngIf="transactions.length === 0">
                 <td colspan="6">Transactions not available...</td>
             </tr>
 
-            <tr *ngFor="let item of filteredTransactions | paginate:paginationConfig; let i = index; trackBy: trackByFn">
+            <tr *ngFor="let item of transactions | paginate:paginationConfig; let i = index; trackBy: trackByFn">
                 <td class="text-end">{{ (paginationConfig['currentPage'] - 1) * paginationConfig['itemsPerPage'] + i + 1 }}</td>
                 <td
                     class="text-truncate"
@@ -129,23 +129,17 @@
                 <td class="text-center">{{ item.type }}</td>
                 <td>
                     <div class="d-flex justify-content-center align-items-center gap-3">
-                        <svg
-                            class="bi cursor-pointer"
-                            width="24"
-                            height="24"
+                        <app-svg-icon
+                            name="edit"
+                            class="cursor-pointer"
                             (click)="onEditBtnClick(item)"
-                        >
-                            <use xlink:href="assets/icons/icons.svg#pencil-square"></use>
-                        </svg>
+                        ></app-svg-icon>
 
-                        <svg
-                            class="bi cursor-pointer"
-                            width="24"
-                            height="24"
+                        <app-svg-icon
+                            name="trash"
+                            class="cursor-pointer"
                             (click)="onDeleteBtnClick(item)"
-                        >
-                            <use xlink:href="assets/icons/icons.svg#trash"></use>
-                        </svg>
+                        ></app-svg-icon>
                     </div>
                 </td>
             </tr>
@@ -155,5 +149,8 @@
 
 <div class="pagination-container d-flex justify-content-between">
     <span class="fst-italic">Displaying {{ paginationConfig['itemsPerPage'] }} items per page</span>
-    <pagination-controls (pageChange)="paginationConfig['currentPage'] = $event"></pagination-controls>
+    <pagination-controls
+        (pageChange)="paginationConfig['currentPage'] = $event"
+        [autoHide]="true"
+    ></pagination-controls>
 </div>

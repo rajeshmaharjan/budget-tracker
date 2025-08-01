@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 
-import { Transaction } from '@models/transaction.model';
-
-import { StorageHelper } from '@helpers/storage.helper';
-import { getTotalExpense, getTotalIncome } from 'src/app/features/transactions/helpers/data.helper';
-
-import { StorageKey } from '@enums/storage-key.enum';
+import { TransactionService } from '@transactionServices/transaction.service';
 
 @Component({
   selector: 'app-income-vs-expense-chart',
@@ -15,40 +10,40 @@ import { StorageKey } from '@enums/storage-key.enum';
   styleUrls: ['./income-vs-expense-chart.component.scss']
 })
 export class IncomeVsExpenseChartComponent implements OnInit {
-  Highcharts: typeof Highcharts = Highcharts;
-  updateFlag = false;
+  public Highcharts: typeof Highcharts = Highcharts;
+  public updateFlag = false;
 
-  chartOptions!: Highcharts.Options
+  public chartOptions!: Highcharts.Options;
+
+  constructor(private _transactionService: TransactionService) { }
 
   ngOnInit(): void {
-    const transactions: Transaction[] = StorageHelper.getItem(StorageKey.Transaction) ?? []
-      , totalIncome = getTotalIncome(transactions)
-      , totalExpense = getTotalExpense(transactions);
+    const { totalIncome, totalExpense } = this._transactionService.getTransactionSummary();
 
     this.chartOptions = {
       chart: {
-        type: 'column'
+        type: 'column',
       },
       title: {
-        text: 'Income Vs Expense'
+        text: 'Income Vs Expense',
       },
       xAxis: {
         categories: ['Income vs Expense'],
         crosshair: true,
         accessibility: {
-          description: 'Income vs Expense'
+          description: 'Income vs Expense',
         }
       },
       yAxis: {
         min: 0,
         title: {
-          text: 'Amount'
+          text: 'Amount',
         }
       },
       plotOptions: {
         column: {
           pointPadding: 0.2,
-          borderWidth: 0
+          borderWidth: 0,
         }
       },
       series: [
@@ -66,7 +61,7 @@ export class IncomeVsExpenseChartComponent implements OnInit {
         }
       ],
       credits: {
-        enabled: false
+        enabled: false,
       },
     };
   }
